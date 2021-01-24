@@ -1,0 +1,4 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/rscha/Desktop/UERGS/Projeto de Sistemas Integrados/AGV/AGV.srcs/sources_1/new/datapath.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'datapath'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/rscha/Desktop/UERGS/Projeto de Sistemas Integrados/AGV/AGV.srcs/sim_1/new/teste.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'teste'

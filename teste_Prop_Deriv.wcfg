@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="teste_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="teste" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="21000000000001fs"></ZoomEndTime>
+      <Cursor1Time time="21000000000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="349"></NameColumnWidth>
+      <ValueColumnWidth column_width="372"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="30" />
+   <wvobject fp_name="/teste/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/echo" type="logic">
+      <obj_property name="ElementShortName">echo</obj_property>
+      <obj_property name="ObjectShortName">echo</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/trigger" type="logic">
+      <obj_property name="ElementShortName">trigger</obj_property>
+      <obj_property name="ObjectShortName">trigger</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/pwm1" type="logic">
+      <obj_property name="ElementShortName">pwm1</obj_property>
+      <obj_property name="ObjectShortName">pwm1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/pwm2" type="logic">
+      <obj_property name="ElementShortName">pwm2</obj_property>
+      <obj_property name="ObjectShortName">pwm2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/echo" type="logic">
+      <obj_property name="ElementShortName">echo</obj_property>
+      <obj_property name="ObjectShortName">echo</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/trigger" type="logic">
+      <obj_property name="ElementShortName">trigger</obj_property>
+      <obj_property name="ObjectShortName">trigger</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/pwm1" type="logic">
+      <obj_property name="ElementShortName">pwm1</obj_property>
+      <obj_property name="ObjectShortName">pwm1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/pwm2" type="logic">
+      <obj_property name="ElementShortName">pwm2</obj_property>
+      <obj_property name="ObjectShortName">pwm2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/enable" type="logic">
+      <obj_property name="ElementShortName">enable</obj_property>
+      <obj_property name="ObjectShortName">enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/freq_counter" type="array">
+      <obj_property name="ElementShortName">freq_counter[15:0]</obj_property>
+      <obj_property name="ObjectShortName">freq_counter[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/timer_counter" type="array">
+      <obj_property name="ElementShortName">timer_counter[15:0]</obj_property>
+      <obj_property name="ObjectShortName">timer_counter[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/echo_flag" type="logic">
+      <obj_property name="ElementShortName">echo_flag</obj_property>
+      <obj_property name="ObjectShortName">echo_flag</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/distance" type="array">
+      <obj_property name="ElementShortName">distance[23:0]</obj_property>
+      <obj_property name="ObjectShortName">distance[23:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/erro" type="array">
+      <obj_property name="ElementShortName">erro[6:0]</obj_property>
+      <obj_property name="ObjectShortName">erro[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/erro_neg_flag" type="logic">
+      <obj_property name="ElementShortName">erro_neg_flag</obj_property>
+      <obj_property name="ObjectShortName">erro_neg_flag</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/p" type="array">
+      <obj_property name="ElementShortName">p[15:0]</obj_property>
+      <obj_property name="ObjectShortName">p[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/last_distance" type="array">
+      <obj_property name="ElementShortName">last_distance[6:0]</obj_property>
+      <obj_property name="ObjectShortName">last_distance[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/d_neg_flag" type="logic">
+      <obj_property name="ElementShortName">d_neg_flag</obj_property>
+      <obj_property name="ObjectShortName">d_neg_flag</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/d" type="array">
+      <obj_property name="ElementShortName">d[25:0]</obj_property>
+      <obj_property name="ObjectShortName">d[25:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/pid" type="array">
+      <obj_property name="ElementShortName">pid[15:0]</obj_property>
+      <obj_property name="ObjectShortName">pid[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/pid_neg_flag" type="logic">
+      <obj_property name="ElementShortName">pid_neg_flag</obj_property>
+      <obj_property name="ObjectShortName">pid_neg_flag</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/freq" type="array">
+      <obj_property name="ElementShortName">freq[15:0]</obj_property>
+      <obj_property name="ObjectShortName">freq[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/speed_of_sound" type="array">
+      <obj_property name="ElementShortName">speed_of_sound[7:0]</obj_property>
+      <obj_property name="ObjectShortName">speed_of_sound[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/distance_base" type="array">
+      <obj_property name="ElementShortName">distance_base[6:0]</obj_property>
+      <obj_property name="ObjectShortName">distance_base[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/kp" type="array">
+      <obj_property name="ElementShortName">kp[8:0]</obj_property>
+      <obj_property name="ObjectShortName">kp[8:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/ki" type="array">
+      <obj_property name="ElementShortName">ki[4:0]</obj_property>
+      <obj_property name="ObjectShortName">ki[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/teste/dut/dp/kd" type="array">
+      <obj_property name="ElementShortName">kd[2:0]</obj_property>
+      <obj_property name="ObjectShortName">kd[2:0]</obj_property>
+   </wvobject>
+</wave_config>
