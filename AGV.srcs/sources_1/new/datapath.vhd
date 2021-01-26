@@ -41,6 +41,14 @@ architecture rtl of datapath is
     constant freq : std_logic_vector (15 downto 0):= "1110101001100000"; --60k ciclos de clock 
     signal freq_counter : std_logic_vector (15 downto 0):= "0000000000000000"; -- Conta até o sensor detectar 100cm
     
+    -- sinais de teste
+    signal d_alto: std_logic_vector (11 downto 0) := "000000000000";
+    signal i_alto: std_logic_vector (10 downto 0) := "00000000000";
+    signal pid_alto: std_logic_vector (3 downto 0) := "0000";
+    
+ 
+    
+    
     -- Sinais do modulo Timer
     signal timer_counter : std_logic_vector (15 downto 0):= "0000000000000000";
     signal echo_flag: std_logic := '0';
@@ -62,31 +70,19 @@ architecture rtl of datapath is
     
     signal p: std_logic_vector (15 downto 0) := "0000000000000000";
     
-    --signal i: std_logic_vector (3 downto 0) := "0000";
-    --signal i_neg_flag: std_logic := '0';
+    signal i: std_logic_vector (27 downto 0) := "0000000000000000000000000000";
+    signal i0: std_logic_vector (27 downto 0) := "0000000000000000000000000000";
+    signal i_neg_flag: std_logic := '0';
     
-    signal last_distance: std_logic_vector (6 downto 0) := "0000000";
+    signal last_distance: std_logic_vector (23 downto 0) := "000000000000000000000000";
     signal d_neg_flag: std_logic := '0';
     signal d: std_logic_vector (25 downto 0) := "00000000000000000000000000";
     
     
     signal pid: std_logic_vector (15 downto 0) := x"0000";
     signal pid_neg_flag: std_logic := '0';
-    
-    --Sinais do modulo Motores
-    --signal motor_1: std_logic_vector (15 downto 0) := (others => '0');
-    --signal motor_2: std_logic_vector (15 downto 0) := "0000000000000000";
-    --signal pwm_motor_1: std_logic := '0';
-    --signal pwm_motor_2: std_logic := '0';
-
-    --signal clk : std_logic := '0';
-    --signal echo : std_logic := '0';
   
 begin
-
---clk <= not clk after 25ns;
---teste <= not teste after 20ms;
-
 
 -------------------------------------------------------------------
 --  Freq_de_Leitura
@@ -138,7 +134,8 @@ EchoAnswer: process(echo, enable)
 begin
     if(echo'event and echo='1') then
         echo_flag <= '1';
-        last_distance <= distance(23 downto 17);
+        i0 <= i;
+        last_distance <= distance;
     end if;
     if(enable = '1') then--if(clk'event and clk='1' and echo_flag = '1') then
         echo_flag <= '0';
@@ -180,6 +177,7 @@ begin
             erro_neg_flag <= '1';
             erro(6 downto 0) <= distance_base - distance(23 downto 17);
         end if;
+        
     end if;
 end process;
 
@@ -189,32 +187,75 @@ end process;
 --      Saida: pid
 -------------------------------------------------------------------
 Control: process(clk)
+variable pid_aux_shift : std_logic_vector(19 downto 0);
+variable pid_aux : std_logic_vector(15 downto 0);
+variable i_aux : std_logic_vector(15 downto 0);
+variable d_aux : std_logic_vector(11 downto 0);
+
 begin
+    i_aux := i(15 downto 0);
+    d_aux := d(25 downto 14);
     -- Ajeitar as constanstes e os valores dos controladores para signed
     if(clk'event and clk='1') then
-        if(erro_neg_flag = '0' and d_neg_flag = '0')then
+        if(erro_neg_flag = '0' and d_neg_flag = '0' and  i_neg_flag = '0')then
             pid_neg_flag <= '0';
-            pid <= p + d(25 downto 10);
-        elsif(erro_neg_flag = '1' and d_neg_flag = '0')then
-            if( p > d(25 downto 10))then
-                pid <= not(p + d(25 downto 10));
+            pid_aux := p + d_aux + i_aux;
+        elsif(erro_neg_flag = '1' and d_neg_flag = '0' and  i_neg_flag = '0')then
+        pid_aux:= d_aux - p  + i_aux;
+            if( p > (d_aux + i_aux))then
                 pid_neg_flag <= '1';
+                pid_aux := not(pid_aux);
             else
-                pid <= p + d(25 downto 10);
                 pid_neg_flag <= '0';
             end if;
-         elsif(erro_neg_flag = '0' and d_neg_flag = '1')then
-            if( p < d(25 downto 10))then
-                pid <= not(p + d(25 downto 10));
+         elsif(erro_neg_flag = '0' and d_neg_flag = '1' and  i_neg_flag = '0')then
+         pid_aux := p - d_aux + i_aux;
+            if( d_aux > (p + i_aux) )then
                 pid_neg_flag <= '1';
+                pid_aux := not(pid_aux);
             else
-                pid <= p + d(25 downto 10);
                 pid_neg_flag <= '0';
             end if;
-          elsif(erro_neg_flag = '1' and d_neg_flag = '1')then
-             pid <= not(p + d(25 downto 10));
+          elsif(erro_neg_flag = '0' and d_neg_flag = '0' and  i_neg_flag = '1')then
+          pid_aux:= p + d_aux - i_aux;
+            if(i_aux > (p + d_aux))then
                 pid_neg_flag <= '1';
-        end if;
+                pid_aux := not(pid_aux);
+            else
+                pid_neg_flag <= '0';
+            end if;
+          elsif(erro_neg_flag = '1' and d_neg_flag = '1' and  i_neg_flag = '0')then
+          pid_aux:= i_aux -p - d_aux;
+            if(i_aux < (p + d_aux))then
+                pid_neg_flag <= '1';
+                pid_aux := not(pid_aux);
+            else
+                pid_neg_flag <= '0';
+            end if; 
+          elsif(erro_neg_flag = '1' and d_neg_flag = '0' and  i_neg_flag = '1')then
+          pid_aux:= d_aux -i_aux -p ;
+            if( d_aux < (p + i_aux))then
+                pid_neg_flag <= '1';
+                pid_aux := not(pid_aux);
+            else
+                pid_neg_flag <= '0';
+            end if;
+          elsif(erro_neg_flag = '0' and d_neg_flag = '1' and  i_neg_flag = '1')then
+          pid_aux:= p - d_aux - i_aux;
+            if( p < (d_aux+ i_aux))then
+                pid_neg_flag <= '1';
+                pid_aux := not(pid_aux);
+            else
+                pid_neg_flag <= '0';
+            end if;
+          else
+              pid_aux:= p + d_aux + i_aux;
+              pid_neg_flag <= '1';
+          end if;
+   -- pid<= p + d(25 downto 14) + i(15 downto 0);
+    pid_aux_shift := pid_aux(15 downto 0) * "1000";
+    pid <= pid_aux_shift(15 downto 0);
+    pid_alto <= pid(15 downto 12);
     end if;
 end process;
 
@@ -227,7 +268,7 @@ Proporcional: process(clk)
 begin
     if(clk'event and clk='1') then
         if(erro_neg_flag = '1') then
-            p<= not(erro *kp);
+            p <= erro * kp;
         elsif(erro_neg_flag = '0') then
             p <= erro * kp;
         end if;
@@ -239,44 +280,87 @@ end process;
 --      Entrada: erro, freq
 --      Saida: i
 -------------------------------------------------------------------
---Integrador: process(clk)
---begin
---    if(clk'event and clk='1') then
---        if(erro_neg_flag = '1' and i_neg_flag = '1') then
---            i <= not((i + (erro * ki)) * freq);
---        elsif(erro_neg_flag = '0' and i_neg_flag = '0') then
---            i <= (i + (erro * ki)) * freq;
---        elsif(erro_neg_flag = '0' and i_neg_flag = '1') then
---            if(i > (erro * ki)) then
---                i <= ((erro * ki) - i) * freq;
---            else
---                i_neg_flag <= '0';
-                
---            end if;
---        else
---            i <= (i - (erro * ki)) * freq;
---        end if;
---    end if;
---end process;
-
+Integrador: process(clk)
+variable i_aux: std_logic_vector(43 downto 0);
+begin
+   if(clk'event and clk='1') then
+        if(erro_neg_flag = '1' and i_neg_flag = '1') then -- caso o erro seja negativo e o i também
+            i_neg_flag <= '1';
+            i_aux := ((i0 + (erro * ki)) * freq);
+        elsif(erro_neg_flag = '0' and i_neg_flag = '1') then -- caso o i seja negativo e o erro positivo
+            if(i0 > (erro * ki)) then -- se o i for maior do que erro*ki o i será negativo
+                i_neg_flag <= '1';
+                i_aux := ((i0 - (erro * ki)) * freq);
+            else
+                i_neg_flag <= '0';
+                i_aux := ((i0 - (erro * ki)) * freq);
+               
+            end if;
+        elsif(erro_neg_flag = '1' and i_neg_flag = '0') then 
+            if(i0 < (erro * ki)) then -- se o erro é negativo e erro*ki for maior que i, então i será negativo  
+                i_neg_flag <= '1';
+                i_aux := ((i0 - (erro * ki)) * freq);
+            else
+                i_neg_flag <= '0';
+                i_aux := ((i0 - (erro * ki)) * freq);
+            end if;
+        else -- caso erro e i sejam positivos
+            i_neg_flag <= '0';
+            i_aux := ((i0 + (erro * ki)) * freq);
+        end if;
+       
+        i <= i_aux(43 downto 16);
+        i_alto <= i(27 downto 17);
+    end if;
+end process;
 -------------------------------------------------------------------
 --  Controlador Derivador
 --      Entrada: freq
 --      Saida: d
 -------------------------------------------------------------------
 Derivador: process(clk)
+variable d_aux: std_logic_vector(42 downto 0);
 begin
     if(clk'event and clk='1') then
-        if(last_distance < distance(23 downto 17)) then
-            d <= not((last_distance - distance(23 downto 17)) * kd * freq); 
-            d_neg_flag <= '1';
-        else
-            d <= (last_distance - distance(23 downto 17)) * kd * freq;
+        if(last_distance < distance) then
+            d_aux := (distance - last_distance) * kd * freq; 
             d_neg_flag <= '0';
+        else
+            d_aux := (last_distance - distance) * kd * freq;
+            d_neg_flag <= '1';
         end if;
+    d<= d_aux(42 downto 17);
+    d_alto <=  d(25 downto 14);
     end if;
 end process;
 
+-------------------------------------------------------------------
+--  PWM
+--      Entrada: pid, PID_neg_flag
+--      Saida: i
+-------------------------------------------------------------------
+--PWM: process(clk)
+--begin
+   -- if(clk'event and clk='1') then
+       -- if(pid_neg_flag = '1') then
+             --motor 1
+         --   pwm2 <= '1';
+        --    if(pid > freq_counter) then
+          --      pwm1 <= '0';
+        --    else
+      --          pwm1 <= '1';
+    --        end if;
+  --      else
+     --        --motor 2
+   --         pwm1 <= '1';
+          --  if(pid < freq_counter) then
+            --    pwm2 <= '0';
+          --  else
+        --        pwm2 <= '1';
+      --      end if;
+    --    end if;
+  --  end if;
+--end process;
 -------------------------------------------------------------------
 --  PWM
 --      Entrada: pid, PID_neg_flag
@@ -296,7 +380,7 @@ begin
         else
              --motor 2
             pwm1 <= '1';
-            if(pid < freq_counter) then
+            if(pid > freq_counter) then
                 pwm2 <= '0';
             else
                 pwm2 <= '1';

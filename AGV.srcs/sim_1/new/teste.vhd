@@ -105,6 +105,78 @@ begin
     wait for 1ms; -- tempo do echo
     echo <= '1';
     wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 7
+    wait until trigger = '1';
+    wait for 1200us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 8
+    wait until trigger = '1';
+    wait for 1100us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 9
+    wait until trigger = '1';
+    wait for 1200us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 10
+    wait until trigger = '1';
+    wait for 1150us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 11
+    wait until trigger = '1';
+    wait for 700us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 12
+    wait until trigger = '1';
+    wait for 600us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 13
+    wait until trigger = '1';
+    wait for 500us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 14
+    wait until trigger = '1';
+    wait for 650us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 15
+    wait until trigger = '1';
+    wait for 800us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 16
+    wait until trigger = '1';
+    wait for 1000us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 17
+    wait until trigger = '1';
+    wait for 250us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
+    echo <= '0';
+    --Aguarda o trigger - 18
+    wait until trigger = '1';
+    wait for 500us; -- tempo do echo
+    echo <= '1';
+    wait for 25ns;
 end process;
 
 process 
